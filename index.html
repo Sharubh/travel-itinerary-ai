@@ -44,20 +44,35 @@
 <div id="result">🧳 Waiting for input...</div>
 
 <script>
-function generateFakeItinerary() {
-  const dest = document.getElementById("destination").value;
-  const days = document.getElementById("days").value;
-  const interests = document.getElementById("interests").value;
+async function generateItinerary() {
+  const destination = document.getElementById('destination').value;
+  const days = document.getElementById('days').value;
+  const interests = document.getElementById('interests').value;
 
-  const output = `✈️ Your ${days}-day trip to ${dest} focused on ${interests}:\n\n` +
-    "Day 1: Arrival, local food tour\n" +
-    "Day 2: Explore main attractions and museums\n" +
-    "Day 3: Outdoor activities and relaxation\n" +
-    "Day 4: Cultural experiences and markets\n" +
-    "Day 5: Farewell dinner and souvenirs\n\n" +
-    "🎉 Safe travels! (AI response placeholder)";
+  const prompt = {
+    destination: destination,
+    days: days,
+    interests: interests
+  };
 
-  document.getElementById("result").textContent = output;
+  try {
+    // This fetch call sends the data to your Replit backend
+    const response = await fetch('fetch('https://be85edd8-13cd-4a4c-beb8-bab1f078df89-00-2ok21rb24mv8d.riker.replit.dev/generate', { ... })
+', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(prompt), // Sends the user data to the backend
+    });
+
+    // This gets the response from the backend and shows it
+    const data = await response.json();
+    const reply = data.reply;
+    document.getElementById('result').textContent = reply;
+  } catch (error) {
+    document.getElementById('result').textContent = 'Error fetching data. Please try again later.';
+  }
 }
 </script>
 
