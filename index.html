@@ -1,80 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>AI Travel Itinerary Generator</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #f0f4f8;
-    }
-    textarea, input, button {
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      font-size: 16px;
-    }
-    #result {
-      white-space: pre-wrap;
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Travel Itinerary Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        label, input, button {
+            display: block;
+            margin: 10px 0;
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+        }
+        #response {
+            margin-top: 20px;
+            font-size: 18px;
+            white-space: pre-wrap; /* Makes sure the itinerary is formatted correctly */
+        }
+    </style>
 </head>
 <body>
+    <h1>AI Travel Itinerary Generator</h1>
 
-<h1>🌍 AI Travel Itinerary Generator</h1>
+    <form id="itinerary-form">
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" required placeholder="Enter your destination" />
 
-<label>Destination:</label>
-<input id="destination" placeholder="e.g. Paris" />
+        <label for="days">Number of Days:</label>
+        <input type="number" id="days" required placeholder="Enter the number of days" />
 
-<label>Trip Length (days):</label>
-<input id="days" type="number" placeholder="e.g. 5" />
+        <label for="interests">Interests:</label>
+        <input type="text" id="interests" required placeholder="Enter your interests (e.g., nature, history, food)" />
 
-<label>Travel Interests:</label>
-<textarea id="interests" placeholder="e.g. food, history, beaches"></textarea>
+        <button type="submit">Generate Itinerary</button>
+    </form>
 
-<button onclick="generateFakeItinerary()">Generate Itinerary</button>
+    <div id="response"></div>
 
-<div id="result">🧳 Waiting for input...</div>
+    <script>
+        const form = document.getElementById('itinerary-form');
+        const responseDiv = document.getElementById('response');
 
-<script>
-async function generateItinerary() {
-  const destination = document.getElementById('destination').value;
-  const days = document.getElementById('days').value;
-  const interests = document.getElementById('interests').value;
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
 
-  const prompt = {
-    destination: destination,
-    days: days,
-    interests: interests
-  };
+            const destination = document.getElementById('destination').value;
+            const days = document.getElementById('days').value;
+            const interests = document.getElementById('interests').value;
 
-  try {
-    // This fetch call sends the data to your Replit backend
-    const response = await fetch('fetch('https://be85edd8-13cd-4a4c-beb8-bab1f078df89-00-2ok21rb24mv8d.riker.replit.dev/generate', { ... })
-', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(prompt), // Sends the user data to the backend
-    });
+            // Show loading message
+            responseDiv.textContent = 'Generating itinerary...';
 
-    // This gets the response from the backend and shows it
-    const data = await response.json();
-    const reply = data.reply;
-    document.getElementById('result').textContent = reply;
-  } catch (error) {
-    document.getElementById('result').textContent = 'Error fetching data. Please try again later.';
-  }
-}
-</script>
+            try {
+                // Send the form data to the Replit backend API
+                const response = await fetch('https://be85edd8-13cd-4a4c-beb8-bab1f078df89-00-2ok21rb24mv8d.riker.replit.dev/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        destination: destination,
+                        days: days,
+                        interests: interests
+                    })
+                });
 
+                const data = await response.json();
+
+                if (data.reply) {
+                    responseDiv.textContent = `Itinerary for ${destination}:\n\n${data.reply}`;
+                } else {
+                    responseDiv.textContent = 'Sorry, something went wrong. Please try again.';
+                }
+
+            } catch (error) {
+                console.error('Error generating itinerary:', error);
+                responseDiv.textContent = 'There was an error with the server. Please try again later.';
+            }
+        });
+    </script>
 </body>
 </html>
