@@ -61,7 +61,10 @@
             try {
                 // Send the form data to the Replit backend API
                 const response = await fetchfetch('/generate', { ... })
-, {
+
+                    const data = await response.json();
+console.log(data); // Add this line
+                    , {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
