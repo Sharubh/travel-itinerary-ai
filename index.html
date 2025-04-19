@@ -4,111 +4,114 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI Travel Itinerary Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Reset and base styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: url('https://source.unsplash.com/1600x900/?travel') no-repeat center center fixed;
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: url('https://images.unsplash.com/photo-1508264165352-258db2ebd59b?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
       min-height: 100vh;
+      padding: 40px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px;
     }
 
     h1 {
-      font-size: 3em;
+      font-size: 3rem;
       margin-bottom: 20px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      text-align: center;
     }
 
     form {
-      background-color: rgba(0, 0, 0, 0.6);
+      background: rgba(255, 255, 255, 0.1);
       padding: 30px;
-      border-radius: 10px;
-      width: 100%;
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
       max-width: 500px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     }
 
     label {
       display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
+      margin-bottom: 8px;
+      font-weight: 600;
     }
 
     input, button {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
+      padding: 12px;
+      margin-bottom: 20px;
       border: none;
-      border-radius: 5px;
-      font-size: 1em;
+      border-radius: 8px;
+      font-size: 1rem;
     }
 
     input {
-      background-color: #fff;
+      background-color: rgba(255, 255, 255, 0.8);
       color: #000;
     }
 
     button {
-      background-color: #ff7f50;
+      background-color: #ff6b6b;
       color: #fff;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
 
     button:hover {
-      background-color: #ff6347;
+      background-color: #ff4757;
     }
 
     #response {
-      margin-top: 20px;
-      background-color: rgba(255, 255, 255, 0.8);
-      color: #000;
+      margin-top: 30px;
+      background: rgba(255, 255, 255, 0.1);
       padding: 20px;
       border-radius: 10px;
-      white-space: pre-wrap;
+      backdrop-filter: blur(10px);
       max-width: 500px;
       width: 100%;
+      white-space: pre-wrap;
+      font-size: 1.1rem;
     }
 
     @media (max-width: 600px) {
       h1 {
-        font-size: 2em;
+        font-size: 2rem;
       }
 
-      form {
+      form, #response {
         padding: 20px;
       }
     }
   </style>
 </head>
 <body>
-  <h1>AI Travel Itinerary Generator</h1>
-  <form id="itinerary-form">
-    <label for="destination">Destination:</label>
-    <input type="text" id="destination" required placeholder="Enter your destination" />
+  <div class="overlay">
+    <h1>AI Travel Itinerary Generator</h1>
+    <form id="itinerary-form">
+      <label for="destination">Destination:</label>
+      <input type="text" id="destination" required placeholder="Enter your destination" />
 
-    <label for="days">Number of Days:</label>
-    <input type="number" id="days" required placeholder="Enter the number of days" />
+      <label for="days">Number of Days:</label>
+      <input type="number" id="days" required placeholder="Enter the number of days" />
 
-    <label for="interests">Interests:</label>
-    <input type="text" id="interests" required placeholder="e.g., nature, history, food" />
+      <label for="interests">Interests:</label>
+      <input type="text" id="interests" required placeholder="e.g., nature, history, food" />
 
-    <button type="submit">Generate Itinerary</button>
-  </form>
+      <button type="submit">Generate Itinerary</button>
+    </form>
 
-  <div id="response"></div>
+    <div id="response"></div>
+  </div>
 
   <script>
     const form = document.getElementById('itinerary-form');
@@ -129,7 +132,11 @@
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ destination, days, interests })
+          body: JSON.stringify({
+            destination: destination,
+            days: days,
+            interests: interests
+          })
         });
 
         const data = await response.json();
@@ -139,6 +146,7 @@
         } else {
           responseDiv.textContent = 'Sorry, something went wrong. Please try again.';
         }
+
       } catch (error) {
         console.error('Error generating itinerary:', error);
         responseDiv.textContent = 'There was an error with the server. Please try again later.';
