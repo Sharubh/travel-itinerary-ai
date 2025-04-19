@@ -3,115 +3,169 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Travel Itinerary Generator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <title>AI Travel Planner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background: url('https://images.unsplash.com/photo-1508264165352-258db2ebd59b?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
-      background-size: cover;
-      color: #fff;
+      font-family: 'Inter', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
     }
 
-    .overlay {
-      background-color: rgba(0, 0, 0, 0.6);
-      min-height: 100vh;
-      padding: 40px 20px;
+    header {
+      background-color: #ffffff;
+      padding: 20px 40px;
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 20px;
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #007BFF;
+    }
+
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .hero {
+      background: linear-gradient(to right, #007BFF, #00C6FF);
+      color: #fff;
+      padding: 100px 20px;
       text-align: center;
     }
 
-    form {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 30px;
-      border-radius: 15px;
-      backdrop-filter: blur(10px);
-      max-width: 500px;
-      width: 100%;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
     }
 
-    label {
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+    }
+
+    .hero button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      background-color: #fff;
+      color: #007BFF;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    form label {
       display: block;
       margin-bottom: 8px;
       font-weight: 600;
     }
 
-    input, button {
+    form input, form textarea {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       margin-bottom: 20px;
-      border: none;
-      border-radius: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
       font-size: 1rem;
     }
 
-    input {
-      background-color: rgba(255, 255, 255, 0.8);
-      color: #000;
-    }
-
-    button {
-      background-color: #ff6b6b;
+    form button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      background-color: #007BFF;
       color: #fff;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #ff4757;
     }
 
     #response {
-      margin-top: 30px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 10px;
-      backdrop-filter: blur(10px);
-      max-width: 500px;
-      width: 100%;
+      margin-top: 20px;
       white-space: pre-wrap;
-      font-size: 1.1rem;
+      background-color: #e9f7fe;
+      padding: 20px;
+      border-radius: 5px;
+      border-left: 5px solid #007BFF;
+    }
+
+    footer {
+      background-color: #f1f1f1;
+      padding: 20px 40px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 40px;
     }
 
     @media (max-width: 600px) {
-      h1 {
+      .hero h2 {
         font-size: 2rem;
       }
 
-      form, #response {
-        padding: 20px;
+      .hero p {
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="overlay">
-    <h1>AI Travel Itinerary Generator</h1>
+
+  <header>
+    <h1>TravelAI</h1>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#plan">Plan Trip</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Your Personal AI Travel Planner</h2>
+    <p>Plan your perfect trip effortlessly with AI-generated itineraries tailored to your interests.</p>
+    <button onclick="document.getElementById('plan').scrollIntoView({ behavior: 'smooth' });">Start Planning</button>
+  </section>
+
+  <section class="container" id="plan">
     <form id="itinerary-form">
       <label for="destination">Destination:</label>
-      <input type="text" id="destination" required placeholder="Enter your destination" />
+      <input type="text" id="destination" name="destination" required placeholder="Enter your destination" />
 
       <label for="days">Number of Days:</label>
-      <input type="number" id="days" required placeholder="Enter the number of days" />
+      <input type="number" id="days" name="days" required placeholder="Enter the number of days" />
 
       <label for="interests">Interests:</label>
-      <input type="text" id="interests" required placeholder="e.g., nature, history, food" />
+      <input type="text" id="interests" name="interests" required placeholder="e.g., culture, adventure, cuisine" />
 
       <button type="submit">Generate Itinerary</button>
     </form>
 
     <div id="response"></div>
-  </div>
+  </section>
+
+  <footer>
+    &copy; 2025 TravelAI. All rights reserved.
+  </footer>
 
   <script>
     const form = document.getElementById('itinerary-form');
@@ -124,7 +178,7 @@
       const days = document.getElementById('days').value;
       const interests = document.getElementById('interests').value;
 
-      responseDiv.textContent = 'Generating itinerary...';
+      responseDiv.textContent = 'Generating your personalized itinerary...';
 
       try {
         const response = await fetch('https://be85edd8-13cd-4a4c-beb8-bab1f078df89-00-2ok21rb24mv8d.riker.replit.dev/generate', {
@@ -132,11 +186,7 @@
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            destination: destination,
-            days: days,
-            interests: interests
-          })
+          body: JSON.stringify({ destination, days, interests })
         });
 
         const data = await response.json();
@@ -146,12 +196,12 @@
         } else {
           responseDiv.textContent = 'Sorry, something went wrong. Please try again.';
         }
-
       } catch (error) {
-        console.error('Error generating itinerary:', error);
-        responseDiv.textContent = 'There was an error with the server. Please try again later.';
+        console.error('Error:', error);
+        responseDiv.textContent = 'An error occurred while generating the itinerary. Please try again later.';
       }
     });
   </script>
+
 </body>
 </html>
